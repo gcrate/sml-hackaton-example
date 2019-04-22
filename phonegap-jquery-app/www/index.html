@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <title>Since My Last</title>
+</head>
+
+<body>
+    <div class="app">
+        <img src="../img/logo.svg" class="logo"/>
+
+        <div id="register-form" class="screen">
+          <div>My Name is... </div>
+          <div><input placeholder="Name" type="text" id="input-name"/></div>
+          <div>My phone number is...</div>
+          <div><input placeholder="10-digit phone #" type="number" maxlength="10" id="input-phone"/></div>
+          <div>Count days since I last...</div>
+          <div><input placeholder="e.g. drank soda" type="text" id="input-goal"/></div>
+          <div class="button" id="btn-register" onclick="app.register()">Register</div>
+          <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+        </div>
+        <div id="verify-form" class="screen">
+          <div>We've sent a text message to <b id="text-phone"></b></div>
+          <div>Enter the code below:</div>
+          <div><input placeholder="Verification Code" type="number" id="input-pin"/></div>
+          <div class="button" id="btn-verify" onclick="app.verify()">Verify</div>
+          <div class="button" id="btn-verify-back" onclick="app.reset()">Back</div>
+          <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+        </div>
+        <div id="main-screen" class="screen">
+          It's been
+            <div><div id="count">0</div><div>days since you last <div id="goal">goal here!</div></div></div>
+            <div class="button" id="failedBtn" onclick="app.resetCount()">Reset the Counter</div>
+            <div class="button" id="successBtn" onclick="app.addCount()">Add another Day!</div>
+            <div class="message" id="noAddMsg">You can't add another day till after 8pm</div>
+            <div class="message" id="alreadyAddedMsg">Already reported today</div>
+        </div>
+        <div id="noFriendNumber" class="friendMsg" onclick="app.setFriend()">Add a friend to keep you accountable</div>
+        <div id="hasFriendNumber" class="friendMsg" onclick="app.setFriend()">Counter resets will be reported to <b id="friendNumber"></b></div>
+    </div>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript">
+        app.initialize();
+    </script>
+</body>
+
+</html>
