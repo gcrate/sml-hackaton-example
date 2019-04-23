@@ -19,3 +19,6 @@ There are also 2 examples of the same mobile app. One using plain vanilla [Cordo
 
 
 For both of these projects require you to install NodeJs and Cordova. And you may want to install Ionic. Instructions for installation can be found [here](/Ionic-Setup.md). If you want to run the app on Android, you'll also need AndroidSDK, or iOS you'll need a Mac and XCode - but you can always present your app from you laptops browser.
+
+## Additional Information
+Additional info can be found [here](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
