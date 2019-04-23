@@ -5,34 +5,60 @@ import uuid
 #import requests
 import boto3
 
-DYNAMO_TABLE = "sml-table"
+DYNAMO_TABLE = 'sml-table'
+HEADERS = {
+    'Context-Type' : 'application/json',
+    'Access-Control-Allow-Origin' : '*'
+    }
 
 #Register a new user, and return UUID
 def register(body):
+    #Missing validation but it's a hackaton ¯\_(ツ)_/¯
+        pin = generatePIN()
+        uuid = uuid.uuid4()
+
         userDetails = {
-            'uuid' : uuid.uuid4(),
+            'uuid' : uuid,
             'phone' : body['phone'],
             'name' : body ['name'],
-            'pin' : generatePIN(),
+            'pin' : pin,
             'goal' : body['goal'],
             'secret' : uuid.uuid4(),
             'count' : 0,
-            'reported' : 
+            'reported' : '2000-01-01'
         }
-        pin = generatePIN()
-        print(pin)
-        return "123ABC"
-    
-#verify pin, and return secret     
-def verify():
-        print('ver')
-        return "ABCD"
+
+        save_user_details(userDetails)
+
+        sendTextMsg(body['phone'], 'SinceMyLast Verification Code:' + pin)
+
+        return {
+            'statusCode': 200,
+            'body': json.dumps({ 'uuid' : uuid }),
+            'headers' : json.dumps(HEADERS)
+        }
+
+#verify pin, and return secret
+def verify(body):
+        userDetails = get_user_details(body['uuid'])
+        if body['pin'] != userDetails['pin']:
+            return {
+                'statusCode': 401,
+                'body': json.dumps({ 'error' : 'Invalid pin!' }),
+                'headers' : json.dumps(HEADERS)
+            }
+        else:
+            return {
+                'statusCode': 200,
+                'body': json.dumps({ 'secret' : userDetails['secret'] }),
+                'headers' : json.dumps(HEADERS)
+            }
 
 #log a successful day or a failure
 def logAction():
         print('logaction')
         return "ok"
-        
+
 #set users friend
 def setFriend():
         print('setFriend')
@@ -52,12 +78,12 @@ def sendTextMsg(to, message):
         'from' : os.environ['NEXMO_PHONE'],
         'text' : message
     }
-#    requests.post(url = "https://rest.nexmo.com/sms/json", data = requestData)     
+#    requests.post(url = "https://rest.nexmo.com/sms/json", data = requestData)
 
 def get_user_details(uuid):
     dynamodb = boto3.client('dynamodb')
     dynamodb.get_item(TableName=DYNAMO_TABLE, Key={'uuid': uuid})
-    
+
 def save_user_details(item):
     dynamodb = boto3.client('dynamodb')
     dynamodb.put_item(TableName=DYNAMO_TABLE, Item=item)
@@ -76,13 +102,6 @@ def lambda_handler(event, context):
         '/set-friend' : setFriend,
         '/get-count' : getCount
     }
-    
+
     body = json.loads(event['body'])
-    urlsToFuncion.get(event['path'])(body)
-    
-    return {
-        'statusCode': 200,
-        'body': json.dumps('Hello from Lambda!')
-    }
-
-
+    return urlsToFuncion.get(event['path'])(body)
