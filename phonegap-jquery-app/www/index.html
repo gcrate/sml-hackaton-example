@@ -15,8 +15,13 @@
 
 <body>
     <div class="app">
+        <!-- We'll always show the logo at the top -->
         <img src="../img/logo.svg" class="logo"/>
-
+        <!--
+        As this is a simple jquery example, and not using a framework
+        every page is just a div that we'll hide or show.
+        All the javascript actions are just called with onclick events
+        -->
         <div id="register-form" class="screen">
           <div>My Name is... </div>
           <div><input placeholder="Name" type="text" id="input-name"/></div>
@@ -25,6 +30,7 @@
           <div>Count days since I last...</div>
           <div><input placeholder="e.g. drank soda" type="text" id="input-goal"/></div>
           <div class="button" id="btn-register" onclick="app.register()">Register</div>
+          <!-- CSS loader, not just a bunch of random divs-->
           <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
         </div>
         <div id="verify-form" class="screen">
@@ -33,6 +39,7 @@
           <div><input placeholder="Verification Code" type="number" id="input-pin"/></div>
           <div class="button" id="btn-verify" onclick="app.verify()">Verify</div>
           <div class="button" id="btn-verify-back" onclick="app.reset()">Back</div>
+          <!-- CSS loader, not just a bunch of random divs-->
           <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
         </div>
         <div id="main-screen" class="screen">
@@ -46,8 +53,12 @@
         <div id="noFriendNumber" class="friendMsg" onclick="app.setFriend()">Add a friend to keep you accountable</div>
         <div id="hasFriendNumber" class="friendMsg" onclick="app.setFriend()">Counter resets will be reported to <b id="friendNumber"></b></div>
     </div>
+
+    <!--Load cordova, the magic behind phonegap & ionic-->
     <script type="text/javascript" src="cordova.js"></script>
+    <!-- Load Jquery -->
     <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+    <!-- And load our app's javascript -->
     <script type="text/javascript" src="js/index.js"></script>
     <script type="text/javascript">
         app.initialize();

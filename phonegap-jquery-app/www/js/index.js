@@ -1,25 +1,6 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
-
 var app = {
     SERVICE_URL: "https://mh0igf3cyk.execute-api.us-east-1.amazonaws.com/prod",
-    ENABLE_ADD_AFTER_HOUR: 2,
+    ENABLE_ADD_AFTER_HOUR: 20,
     // Application Constructor
     initialize: function() {
         this.bindEvents();
@@ -41,6 +22,7 @@ var app = {
       }
     },
 
+    //Reset the application back to it's initial state
     reset: function() {
       localStorage.clear();
       $("#btn-register").show();
@@ -51,10 +33,14 @@ var app = {
     },
 
     register: function() {
-      var valid = true;
+
+      //pull form inputs
       var name = $('#input-name').val();
       var phone = '1' + $('#input-phone').val();
       var goal = $('#input-goal').val();
+
+      //Do some validation
+      var valid = true;
 
       $('input').removeClass('validation-error');
       if (!name) {
@@ -70,6 +56,7 @@ var app = {
         valid = false;
       }
       if(valid) {
+        //Show the loader, and call out to the register endpoint
         $("#btn-register").hide();
         $("#register-form .lds-ring").show();
         $.ajax(
@@ -101,12 +88,16 @@ var app = {
     },
 
     verify: function() {
+      //pull form input
       var pin = $('#input-pin').val();
+
+      //Do some validation
       $('input').removeClass('validation-error');
       if(!pin) {
         $('#input-pin').addClass('validation-error');
       } else {
-      $.ajax(
+        //make the call
+        $.ajax(
             {
               url: app.SERVICE_URL + '/verify',
               type: 'POST',
@@ -120,12 +111,14 @@ var app = {
                   app.loadCount();
                 },
               error: function(err) {
-                alert( "error: " + JSON.stringify(err) ) ; //For now
+                //We should handle errors better, but this is a hackathon
+                alert( "error: " + JSON.stringify(err) ) ;
               }
           });
       }
     },
 
+    //Loads all the current state from the /get-count endpoint
     loadCount: function() {
       $.ajax(
             {
@@ -249,7 +242,7 @@ var app = {
              }),
             success:
               function(data) {
-                
+
               },
             error: function(err) {
               alert( "error: " + JSON.stringify(err) ) ; //For now
