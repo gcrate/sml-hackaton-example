@@ -25,12 +25,12 @@ The example API uses [DynamoDB](https://docs.aws.amazon.com/amazondynamodb/lates
 
 So if you want to use it too you'll need to perform the following.
 
-* Create your table:
+1. Create your table:
   1. Under the services menu select DynamoDB (It's in the database section)
   2. Click the 'create table' button
   3. Enter the table name, and primary key. If you're using the example API, the java versions points to a table called 'since-my-last-data' and the python points to 'sml-table'. Both use `uuid` as the primary key
   4. Click the 'Create' button
-* Grant your lambda function permissions to use DynamoDB
+2. Grant your lambda function permissions to use DynamoDB
   1. Under services menu select IAM (It's in the Security, Identity, & Compliance section)
   2. Click 'Polices' in the left hand menu, and click 'Create Policy'
   3. In the visual editor add the following:
