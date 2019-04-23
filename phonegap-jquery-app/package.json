@@ -30,7 +30,8 @@
     }
   },
   "dependencies": {
-    "cordova-android": "^8.0.0"
+    "cordova-android": "^8.0.0",
+    "cordova-browser": "^6.0.0"
   },
   "devDependencies": {
     "cordova-plugin-battery-status": "~1.1.1",
