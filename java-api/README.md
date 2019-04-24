@@ -1,15 +1,13 @@
-# Lambda Python API Example - SinceMyLast
-This API was created for python 3
+# Lambda Java API Example - SinceMyLast
+This API was created for Java 8 (But it should build in 9+)
 
 ## Packaging for deployment
-For reference: https://docs.aws.amazon.com/lambda/latest/dg/lambda-python-how-to-create-deployment-package.html
+Build the project with Maven
+`mvn clean install`
 
-This API requires you to install the pip package `requests`
-You can install it locally using `pip3 install request --target .`
+You'll upload the resulting SinceMyLastSvcs.jar from the target directory.
 
-Package the results of this command up with the sml.py script, in a zip file, and you're ready to deployment
-
-On the lambda console set the handler as `sml.lambda_handler`
+On the lambda console set the handler as `com.sincemylast.api.ApiHandler::handleRequest`
 
 ## Env Variables
 * NEXMO_PHONE_NUM = 12012790705
