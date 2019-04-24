@@ -2,3 +2,5 @@ java-api/target
 phonegap-jquery-app/platforms
 phonegap-jquery-app/plugins
 phonegap-jquery-app/node_modules
+python-api/package
+python-api/function.zip

@@ -2,9 +2,12 @@ import os
 import json
 import random
 import uuid
-#import requests
+import requests
 import boto3
-from datetime import datetime
+import datetime
+
+# In true hackathon style this is the first API i've written in python
+# So please forgive anything not done in the correct python way
 
 DYNAMO_TABLE = 'sml-table'
 HEADERS = {
@@ -16,18 +19,18 @@ HEADERS = {
 def register(body):
     #Missing validation but it's a hackaton ¯\_(ツ)_/¯
         pin = generatePIN()
-        uuid = uuid.uuid4()
+        userUuid = str(uuid.uuid4())
 
         userDetails = {
-            'uuid' : uuid,
+            'uuid' : userUuid,
             'phone' : body['phone'],
             'name' : body ['name'],
             'pin' : pin,
             'goal' : body['goal'],
-            'secret' : uuid.uuid4(),
+            'secret' : str(uuid.uuid4()),
             'count' : 0,
             'reported' : '2000-01-01',
-            'friend' : ''
+            'friend' : ' '
         }
 
         print('pin: ' + pin)
@@ -38,7 +41,7 @@ def register(body):
 
         return {
             'statusCode': 200,
-            'body': json.dumps({ 'uuid' : uuid }),
+            'body': json.dumps({ 'uuid' : userUuid }),
             'headers' : json.dumps(HEADERS)
         }
 
@@ -75,18 +78,22 @@ def logAction(body):
             else:
                 userDetails['count'] = 0
 
-            now = datetime.now()
-            userDetails['reported'] = (datetime.datetime.utcnow() - datetime.timedelta(hours=4)).strftime('%Y-%m-%d')
+            userDetails['reported'] = getFormattedEstDate()
 
-            if userDetails['friend'] != '':
-                print('notifiying friend ' + friend)
-                #TODO: send failed text message to friend
+            if userDetails['friend'] != ' ':
+                print('notifiying friend ' + userDetails['friend'])
+                sendTextMsg(userDetails['friend'], userDetail['name'] + ' ' + userDetail['goal'] + " today!")
 
         save_user_details(userDetails)
-        return "ok"
+        return {
+            'statusCode': 200,
+            'body': json.dumps({ 'success' : True }),
+            'headers' : json.dumps(HEADERS)
+        }
 
 #set users friend
 def setFriend(body):
+        userDetails = get_user_details(body['uuid'])
         if body['secret'] != userDetails['secret']:
             return {
                 'statusCode': 401,
@@ -98,14 +105,34 @@ def setFriend(body):
             save_user_details(userDetails)
             return {
                 'statusCode': 200,
-                'body': json.dumps({ 'success' : true }),
+                'body': json.dumps({ 'success' : True }),
                 'headers' : json.dumps(HEADERS)
             }
 
 #get count of days
-def getCount():
-        print('count')
-        return 2
+def getCount(body):
+        userDetails = get_user_details(body['uuid'])
+        if body['secret'] != userDetails['secret']:
+            return {
+                'statusCode': 401,
+                'body': json.dumps({ 'error' : 'Invalid secret' }),
+                'headers' : json.dumps(HEADERS)
+            }
+        else:
+            returnBody = {
+                'count' : int(userDetails['count']),
+                'goal' : userDetails['goal'],
+                'reported' : userDetails['reported'],
+                'allowReport' : userDetails['reported'] != getFormattedEstDate(),
+                'friend' : userDetails['friend'] if userDetails['friend'] != ' ' else ''
+            }
+
+            return {
+                'statusCode': 200,
+                'body': json.dumps(returnBody),
+                'headers' : json.dumps(HEADERS)
+            }
+
 
 #send a text message
 def sendTextMsg(to, message):
@@ -116,21 +143,27 @@ def sendTextMsg(to, message):
         'from' : os.environ['NEXMO_PHONE'],
         'text' : message
     }
-#    requests.post(url = "https://rest.nexmo.com/sms/json", data = requestData)
+    requests.post(url = "https://rest.nexmo.com/sms/json", data = requestData)
 
-def get_user_details(uuid):
-    dynamodb = boto3.client('dynamodb')
-    dynamodb.get_item(TableName=DYNAMO_TABLE, Key={'uuid': uuid})
+def get_user_details(userUuid):
+    dynamodb = boto3.resource('dynamodb')
+    table = dynamodb.Table(DYNAMO_TABLE)
+    return table.get_item(Key={'uuid': userUuid})['Item']
 
+#If user isn't found this breaks... but... hackaton
 def save_user_details(item):
-    dynamodb = boto3.client('dynamodb')
-    dynamodb.put_item(TableName=DYNAMO_TABLE, Item=item)
+    dynamodb = boto3.resource('dynamodb')
+    table = dynamodb.Table(DYNAMO_TABLE)
+    table.put_item(Item=item)
 
 def generatePIN():
     PIN = ""
     for i in range(5):
         PIN = PIN + str(random.randint(0,9))
     return(PIN)
+
+def getFormattedEstDate():
+    return (datetime.datetime.utcnow() - datetime.timedelta(hours=4)).strftime('%Y-%m-%d')
 
 def lambda_handler(event, context):
     urlsToFuncion = {
