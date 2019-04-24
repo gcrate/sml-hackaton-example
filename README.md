@@ -8,7 +8,7 @@ You can use this as a starting point for your project, or just a inspiration.
 ## The API
 There are 2 examples for the backend. One written in [Java](/java-api) and the other in [Python](/python-api).
 
-Both examples are made to the ran on [AWS Lambda](https://aws.amazon.com/serverless/videos/video-lambda-intro/) -- If you've not heard of it, thats serverless compute provided by AWS. (Which means it only spins up a server when its called - That'll keep our infrastructure costs down to basically 0)
+Both examples are made to the run on [AWS Lambda](https://aws.amazon.com/serverless/videos/video-lambda-intro/) -- If you've not heard of it, thats serverless compute provided by AWS. (Which means it only spins up a server when its called - That'll keep our infrastructure costs down to basically 0)
 
 We'll also need to setup an [AWS Api Gateway](https://aws.amazon.com/api-gateway/) to invoke the lambda function.
 
