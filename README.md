@@ -3,7 +3,7 @@
 ## Introduction
 This repo contains example code for the hackathon for a simple accountability app - "SinceMyLast". The app keeps track of the number of days since the user did something (like smoke, drink soda, forget to put the new cover sheet on their TPS reports) and can inform a friend when they fail by text message.  
 
-You can use this as a starting point for your project, or just a inspiration.
+You can use this as a starting point for your project, or just inspiration.
 
 ## The API
 There are 2 examples for the backend. One written in [Java](/java-api) and the other in [Python](/python-api).
