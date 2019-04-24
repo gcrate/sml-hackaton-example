@@ -4,6 +4,7 @@ import random
 import uuid
 #import requests
 import boto3
+from datetime import datetime
 
 DYNAMO_TABLE = 'sml-table'
 HEADERS = {
@@ -25,8 +26,11 @@ def register(body):
             'goal' : body['goal'],
             'secret' : uuid.uuid4(),
             'count' : 0,
-            'reported' : '2000-01-01'
+            'reported' : '2000-01-01',
+            'friend' : ''
         }
+
+        print('pin: ' + pin)
 
         save_user_details(userDetails)
 
@@ -55,14 +59,48 @@ def verify(body):
             }
 
 #log a successful day or a failure
-def logAction():
-        print('logaction')
+def logAction(body):
+        userDetails = get_user_details(body['uuid'])
+        #Validate user
+        if body['secret'] != userDetails['secret']:
+            return {
+                'statusCode': 401,
+                'body': json.dumps({ 'error' : 'Invalid secret' }),
+                'headers' : json.dumps(HEADERS)
+            }
+        else:
+            if body['action'] == 'success':
+                userDetails['count'] = userDetails['count'] + 1
+            #else we'll assume it's reset (hackathon = assumptions)
+            else:
+                userDetails['count'] = 0
+
+            now = datetime.now()
+            userDetails['reported'] = (datetime.datetime.utcnow() - datetime.timedelta(hours=4)).strftime('%Y-%m-%d')
+
+            if userDetails['friend'] != '':
+                print('notifiying friend ' + friend)
+                #TODO: send failed text message to friend
+
+        save_user_details(userDetails)
         return "ok"
 
 #set users friend
-def setFriend():
-        print('setFriend')
-        return "ok"
+def setFriend(body):
+        if body['secret'] != userDetails['secret']:
+            return {
+                'statusCode': 401,
+                'body': json.dumps({ 'error' : 'Invalid secret' }),
+                'headers' : json.dumps(HEADERS)
+            }
+        else:
+            userDetails['friend'] = body['friend']
+            save_user_details(userDetails)
+            return {
+                'statusCode': 200,
+                'body': json.dumps({ 'success' : true }),
+                'headers' : json.dumps(HEADERS)
+            }
 
 #get count of days
 def getCount():
