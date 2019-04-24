@@ -77,12 +77,12 @@ def logAction(body):
             #else we'll assume it's reset (hackathon = assumptions)
             else:
                 userDetails['count'] = 0
+                if userDetails['friend'] != ' ':
+                    print('notifiying friend ' + userDetails['friend'])
+                    sendTextMsg(userDetails['friend'], userDetails['name'] + ' ' + userDetails['goal'] + " today!")
 
             userDetails['reported'] = getFormattedEstDate()
 
-            if userDetails['friend'] != ' ':
-                print('notifiying friend ' + userDetails['friend'])
-                sendTextMsg(userDetails['friend'], userDetail['name'] + ' ' + userDetail['goal'] + " today!")
 
         save_user_details(userDetails)
         return {
