@@ -5,11 +5,14 @@
       </ion-title>
       <ion-buttons slot="end">
         <ion-button (click)="register()" *ngIf="state=='registration'">Register<ion-icon slot="end" name="arrow-forward"></ion-icon></ion-button>
+        <ion-button (click)="verify()" *ngIf="state=='verification'">Verify<ion-icon slot="end" name="arrow-forward"></ion-icon></ion-button>
       </ion-buttons>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <div *ngIf="loading" class="loading">Loading&#8230;</div>
+
   <div *ngIf="state=='registration'">
     <ion-list lines="none">
       <form [formGroup]="registrationForm">

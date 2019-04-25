@@ -27,6 +27,8 @@ export class HomePage {
 
   private http: HttpClient;
 
+  public loading: boolean = false;
+
 
   constructor(public formBuilder: FormBuilder, public httpClient: HttpClient) {
       this.http = httpClient;
@@ -36,7 +38,7 @@ export class HomePage {
 
       if(!this.uuid) {
         this.state = 'registration';
-      } else if (!secret) {
+      } else if (!this.secret) {
         this.state = 'verification';
       }
       console.log(this.state)
@@ -74,11 +76,16 @@ export class HomePage {
          headers: headers
       }
 
-      this.http.post(this.SERVICE_URL, data, options)
+      this.loading = true;
+      this.http.post(this.SERVICE_URL + '/register', data, options)
         .subscribe(data => {
-          console.log(data['_body']);
+          console.log(data['uuid']);
+          this.loading = false;
+          localStorage.setItem('uuid', data['uuid']);
+          this.state = 'verification';
          }, error => {
-          console.log(error);
+          alert(error); //We should probably actually do something with this
+          this.loading = false;
         });
     }
 
