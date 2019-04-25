@@ -6,6 +6,7 @@
       <ion-buttons slot="end">
         <ion-button (click)="register()" *ngIf="state=='registration'">Register<ion-icon slot="end" name="arrow-forward"></ion-icon></ion-button>
         <ion-button (click)="verify()" *ngIf="state=='verification'">Verify<ion-icon slot="end" name="arrow-forward"></ion-icon></ion-button>
+        <ion-button (click)="setFriend()" *ngIf="state=='registered'">Set Friend<ion-icon slot="end" name="person-add"></ion-icon></ion-button>
       </ion-buttons>
     </ion-toolbar>
 </ion-header>
@@ -49,9 +50,13 @@
   </div>
 
   <div *ngIf="state=='verification'">
-    foo
+
     <ion-list lines="none">
       <form [formGroup]="verificationForm">
+        <ion-item>
+            <ion-label position="floating">Verification Code</ion-label>
+            <ion-input formControlName="pin" type="number" [class.invalid]="!verificationForm.controls.pin.valid && (verificationForm.controls.pin.dirty || submitAttempt)"></ion-input>
+        </ion-item>
         <ion-item *ngIf="!verificationForm.controls.pin.valid && (verificationForm.controls.pin.dirty || submitAttempt)">
             <p>Verification code is required</p>
         </ion-item>
@@ -59,7 +64,15 @@
     </ion-list>
   </div>
 
-  <div *ngIf="state=='registered'">
+  <div *ngIf="state=='registered'" id="mainPage">
+    <p>Last reported {{reported ? reported : never}}</p>
+    <span>It's been</span>
+    <div id="count">{{count}}</div>
+    <span>days since you {{goal}}</span>
+
+    <ion-button [disabled]="!allowReset" style="margin-top:40px" color="tertiary" (click)="resetCount()" expand="full">Reset the Counter</ion-button>
+    <ion-button [disabled]="!allowAdd" style="margin-top:10px" color="secondary" expand="full" (click)="addCount()">Add another Day!</ion-button>
+    <p *ngIf="showTooEarly">You can't add another day till after {{serviceHourStr}}</p>
 
   </div>
 </ion-content>

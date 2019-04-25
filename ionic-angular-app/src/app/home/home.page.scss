@@ -2,12 +2,32 @@
   --ion-color-base: lightgrey !important;
 }
 
+.ion-color-secondary {
+  --ion-color-base: #4caf50 !important;
+}
+
+.ion-color-tertiary {
+  --ion-color-base: #ea4e50 !important;
+}
+
 ion-header ion-button {
   color: black;
 }
 
 ion-header ion-img {
   width: 80%;
+}
+.disabledBtn button {
+  background-color: grey !important;
+}
+#mainPage {
+  padding: 20px;
+  text-align: center;
+  font-size: 1.5em;
+}
+
+#count {
+  font-size: 2.5em;
 }
 
 p {
