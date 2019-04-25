@@ -91,7 +91,7 @@ possible action values are `success` or `reset`
 
 ### Get Count / User state
 **Description:** Returns all the user details  
-**Endpoint:** /set-friend  
+**Endpoint:** /get-count  
 **POST Body:**  
 ```json
   {
