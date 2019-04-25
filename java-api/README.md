@@ -18,9 +18,9 @@ On the lambda console set the handler as `com.sincemylast.api.ApiHandler::handle
 All the endpoints should be called as POST requests
 
 ### Register
-**Description:** Registers a new user, sends an SMS with their pin and return the users UUID
+**Description:** Registers a new user, sends an SMS with their pin and return the users UUID  
 **Endpoint:** /register  
-**POST Body:**
+**POST Body:**  
 ```json
   {
     "phone": "1513123123",
@@ -28,7 +28,7 @@ All the endpoints should be called as POST requests
     "goal": "ate after midnight"
   }
 ```
-**Example Result:**
+**Example Result:**  
 ```json
   {
     "uuid" : "77ef90fc-042a-479c-822b-81b481921d28"
@@ -36,26 +36,26 @@ All the endpoints should be called as POST requests
 ```
 
 ### Verify
-**Description:** Verifies the user, and returns their secret
+**Description:** Verifies the user, and returns their secret  
 **Endpoint:** /verify  
-**POST Body:**
+**POST Body:**  
 ```json
   {
     "uuid": "77ef90fc-042a-479c-822b-81b481921d28",
     "pin": "01234",
   }
-```
-**Example Result:**
+``` 
+**Example Result:**  
 ```json
   {
     "secret": "639b7209-997b-4292-a029-e03a14a5a280"
   }
 ```  
 
-### Log action
-**Description:** Log another successful day or a failure
-**Endpoint:** /log-action
-**POST Body:**
+### Log action  
+**Description:** Log another successful day or a failure  
+**Endpoint:** /log-action  
+**POST Body:**  
 ```json
   {
     "uuid": "77ef90fc-042a-479c-822b-81b481921d28",
@@ -64,7 +64,7 @@ All the endpoints should be called as POST requests
   }
 ```
 possible action values are `success` or `reset`  
-**Example Result:**
+**Example Result:**  
 ```json
   {
     "count" : 2
@@ -72,9 +72,9 @@ possible action values are `success` or `reset`
 ```  
 
 ### Set Friend
-**Description:** Sets friends phone number (notified on failures)
-**Endpoint:** /set-friend
-**POST Body:**
+**Description:** Sets friends phone number (notified on failures)  
+**Endpoint:** /set-friend  
+**POST Body:**  
 ```json
   {
     "uuid": "77ef90fc-042a-479c-822b-81b481921d28",
@@ -82,7 +82,7 @@ possible action values are `success` or `reset`
     "friend": "1513098098",
   }
 ```
-**Example Result:**
+**Example Result:**  
 ```json
   {
     "success" : true
@@ -90,16 +90,16 @@ possible action values are `success` or `reset`
 ```  
 
 ### Get Count / User state
-**Description:** Returns all the user details
-**Endpoint:** /set-friend
-**POST Body:**
+**Description:** Returns all the user details  
+**Endpoint:** /set-friend  
+**POST Body:**  
 ```json
   {
     "uuid": "77ef90fc-042a-479c-822b-81b481921d28",
     "secret": "639b7209-997b-4292-a029-e03a14a5a280",
   }
 ```
-**Example Result:**
+**Example Result:**  
 ```json
   {
     "count": 3,
