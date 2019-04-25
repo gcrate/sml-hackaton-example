@@ -1,0 +1,53 @@
+<ion-header>
+    <ion-toolbar color="primary">
+      <ion-title>
+          <ion-img src="/assets/logo.svg"></ion-img>
+      </ion-title>
+      <ion-buttons slot="end">
+        <ion-button (click)="register()" *ngIf="state=='registration'">Register<ion-icon slot="end" name="arrow-forward"></ion-icon></ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="state=='registration'">
+    <ion-list lines="none">
+      <form [formGroup]="registrationForm">
+
+          <ion-item>
+              <ion-label position="floating">What's your name?</ion-label>
+              <ion-input formControlName="name" type="text" [class.invalid]="!registrationForm.controls.name.valid && (registrationForm.controls.name.dirty || submitAttempt)"></ion-input>
+          </ion-item>
+
+          <ion-item *ngIf="!registrationForm.controls.name.valid && (registrationForm.controls.name.dirty || submitAttempt)">
+              <p>Name is required</p>
+          </ion-item>
+
+          <ion-item>
+              <ion-label position="floating">11-digit Phone number? (eg: 1513000000)</ion-label>
+              <ion-input formControlName="phone" type="number" [class.invalid]="!registrationForm.controls.phone.valid && (registrationForm.controls.phone.dirty || submitAttempt)"></ion-input>
+          </ion-item>
+
+          <ion-item *ngIf="!registrationForm.controls.phone.valid  && (registrationForm.controls.phone.dirty || submitAttempt)">
+              <p>Please enter a valid phone number</p>
+          </ion-item>
+
+          <ion-item>
+              <ion-label position="floating">Count days since I last...</ion-label>
+              <ion-input formControlName="goal" type="text" [class.invalid]="!registrationForm.controls.goal.valid && (registrationForm.controls.goal.dirty || submitAttempt)"></ion-input>
+          </ion-item>
+
+          <ion-item *ngIf="!registrationForm.controls.goal.valid  && (registrationForm.controls.goal.dirty || submitAttempt)">
+              <p>Goal is required</p>
+          </ion-item>
+
+        </form>
+      </ion-list>
+  </div>
+  <div *ngIf="state=='verification'">
+
+  </div>
+  <div *ngIf="state=='registered'">
+
+  </div>
+</ion-content>
