@@ -15,6 +15,8 @@ If you know Angular7, or want to learn a framework, the Ionic option would be be
 
 For both of these projects require you to install NodeJs and Cordova. And depending on the selected project you'll want to install ionic or phonegap. Instructions for installation can be found [here](/Software-Setup.md). If you want to run the app on Android, you'll also need AndroidSDK, or iOS you'll need a Mac and XCode - but you can always present your app from you laptops browser.
 
+You can also use ionic with [VueJS](https://www.techiediaries.com/ionic-vue/) or [React](https://alligator.io/ionic/react-and-ionic/) but we didn't have time to create examples for those :)
+
 ## The API
 There are 2 examples for the backend. One written in [Java](/java-api) and the other in [Python](/python-api).
 
