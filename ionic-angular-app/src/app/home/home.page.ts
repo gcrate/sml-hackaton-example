@@ -69,7 +69,7 @@ export class HomePage {
         phone: this.registrationForm.controls.phone.value
       }
 
-      var headers = new Headers();
+      let headers = new Headers();
       headers.append("Accept", 'application/json');
       headers.append('Content-Type', 'application/json' );
       let options = {
@@ -83,14 +83,42 @@ export class HomePage {
           this.loading = false;
           localStorage.setItem('uuid', data['uuid']);
           this.state = 'verification';
+          this.submitAttempt = false;
          }, error => {
           alert(error); //We should probably actually do something with this
           this.loading = false;
         });
     }
 
-    prev(){
-        this.signupSlider.slidePrev();
+    verify(){
+      this.submitAttempt = true;
+      if (this.verificationForm.invalid) {
+          return;
+      }
+
+      let data = {
+        uuid: this.uuid,
+        pin: this.verificationForm.controls.pin.value,
+      }
+
+      let headers = new Headers();
+      headers.append("Accept", 'application/json');
+      headers.append('Content-Type', 'application/json' );
+      let options = {
+         headers: headers
+      }
+
+      this.loading = true;
+      this.http.post(this.SERVICE_URL + '/verify', data, options)
+        .subscribe(data => {
+          this.loading = false;
+          localStorage.setItem('secret', data['secret']);
+          this.state = 'registered';
+          this.submitAttempt = false;
+         }, error => {
+          alert("Invalid Pin (or service issue)"); //We should probably actually do something with this
+          this.loading = false;
+        });
     }
 
     save(){

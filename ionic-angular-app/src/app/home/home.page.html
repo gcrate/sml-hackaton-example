@@ -47,9 +47,18 @@
         </form>
       </ion-list>
   </div>
-  <div *ngIf="state=='verification'">
 
+  <div *ngIf="state=='verification'">
+    foo
+    <ion-list lines="none">
+      <form [formGroup]="verificationForm">
+        <ion-item *ngIf="!verificationForm.controls.pin.valid && (verificationForm.controls.pin.dirty || submitAttempt)">
+            <p>Verification code is required</p>
+        </ion-item>
+      </form>
+    </ion-list>
   </div>
+
   <div *ngIf="state=='registered'">
 
   </div>
