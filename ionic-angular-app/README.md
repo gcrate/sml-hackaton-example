@@ -37,3 +37,5 @@ I'm doing some hacky things here, like just using 1 page, and making http calls 
 The app only lets you add a successful day after 8pm, you can change this time by updating the ENABLE_ADD_AFTER_HOUR value in the index.js
 
 You can also only submit once a day (but you can edit the db values from the dynamo console, or remove the front end validation)
+
+All persistent application state is stored in local storage (So you can clean that out to reset the app)
