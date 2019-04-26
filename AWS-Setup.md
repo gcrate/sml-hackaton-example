@@ -41,6 +41,8 @@ So if you want to use it too you'll need to perform the following.
   5. Click Roles on the left hand menu, and select your lambda's role
   6. Click 'Attach Policy', and chose your new policy
 
+*Also worth noting is you can edit your objects stored in dynamo thru the console!*
+
 ## API Gateway
 The API gateway allows you to call your lambda function via HTTP requests.
 
