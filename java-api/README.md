@@ -9,6 +9,8 @@ You'll upload the resulting SinceMyLastSvcs.jar from the target directory.
 
 On the lambda console set the handler as `com.sincemylast.api.ApiHandler::handleRequest`
 
+Instructions for AWS Setup with Lambda and API Gateway can be found [here](/AWS-Setup.md)
+
 ## Env Variables
 * NEXMO_PHONE_NUM = 12012790705
 * NEXMO_API_KEY = 3f36b6b3
@@ -44,7 +46,7 @@ All the endpoints should be called as POST requests
     "uuid": "77ef90fc-042a-479c-822b-81b481921d28",
     "pin": "01234",
   }
-``` 
+```
 **Example Result:**  
 ```json
   {

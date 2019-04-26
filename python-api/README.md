@@ -11,6 +11,8 @@ Package the results of this command up with the sml.py script, in a zip file, an
 
 On the lambda console set the handler as `sml.lambda_handler`
 
+Instructions for AWS Setup with Lambda and API Gateway can be found [here](/AWS-Setup.md)
+
 ## Env Variables
 * NEXMO_PHONE_NUM = 12012790705
 * NEXMO_API_KEY = 3f36b6b3
